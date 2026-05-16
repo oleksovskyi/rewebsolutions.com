@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reweb — Сайти та AI-автоматизація для бізнесу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c10;
+    --bg-2: #10131a;
+    --bg-3: #161a24;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.15);
+    --accent: #4af0a0;
+    --accent-dim: rgba(74,240,160,0.12);
+    --accent-glow: rgba(74,240,160,0.25);
+    --text-1: #f0f2f7;
+    --text-2: #8b92a8;
+    --text-3: #555d73;
+    --font: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-1);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,12,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-1);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo span {
+    color: var(--accent);
+  }
+
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-2);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text-1); }
+
+  .nav-cta {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bg) !important;
+    background: var(--accent);
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,240,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,240,160,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,240,160,0.08) 0%, transparent 70%);
+    top: -100px;
+    right: -150px;
+    pointer-events: none;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,160,240,0.06) 0%, transparent 70%);
+    bottom: 0;
+    left: 100px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(74,240,160,0.2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    margin-bottom: 40px;
+    width: fit-content;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  h1 {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin-bottom: 28px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-2);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--text-2);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--border-hover); color: var(--text-1); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 80px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .stat-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-1);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SECTIONS COMMON ── */
+  section { position: relative; padding: 100px 48px; }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  h2 {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-2);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  /* ── SERVICES ── */
+  #послуги { background: var(--bg-2); }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--bg-2);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .service-card:hover { background: var(--bg-3); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-dim);
+    border: 1px solid rgba(74,240,160,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .service-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+  }
+
+  .service-desc {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-3);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #процес { background: var(--bg); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+    margin-top: 64px;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 32px 0 0;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--bg);
+    border: 1px solid rgba(74,240,160,0.3);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-1);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  /* ── WHY REWEB ── */
+  #переваги { background: var(--bg-2); }
+
+  .advantages-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 64px;
+  }
+
+  .adv-card {
+    background: var(--bg-2);
+    padding: 40px;
+    transition: background 0.3s;
+  }
+
+  .adv-card:hover { background: var(--bg-3); }
+
+  .adv-num {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 400;
+    color: rgba(74,240,160,0.15);
+    line-height: 1;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+  }
+
+  .adv-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-1);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .adv-desc {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.65;
+  }
+
+  /* ── PRICING ── */
+  #ціни { background: var(--bg); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 64px;
+  }
+
+  .price-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+  }
+
+  .price-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+
+  .price-card.featured {
+    border-color: rgba(74,240,160,0.4);
+    background: var(--bg-3);
+  }
+
+  .price-badge {
+    position: absolute;
+    top: -12px;
+    left: 32px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .price-tier {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+
+  .price-amount {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text-1);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-amount span {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-3);
+    letter-spacing: 0;
+  }
+
+  .price-period {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 32px;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    margin-bottom: 36px;
+  }
+
+  .price-features li {
+    font-size: 14px;
+    color: var(--text-2);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── CTA SECTION ── */
+  #контакт {
+    background: var(--bg-2);
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .cta-inner h2 { margin-bottom: 0; }
+
+  .cta-inner .section-sub {
+    text-align: center;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  .contact-options {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-logo {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-1);
+    letter-spacing: -0.03em;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-2); }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--text-3);
+    font-family: var(--mono);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.7s cubic-bezier(0.22, 0.8, 0.32, 1) both;
+  }
+
+  .fade-up-1 { animation-delay: 0.1s; }
+  .fade-up-2 { animation-delay: 0.22s; }
+  .fade-up-3 { animation-delay: 0.34s; }
+  .fade-up-4 { animation-delay: 0.46s; }
+  .fade-up-5 { animation-delay: 0.58s; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section, .hero, footer { padding-left: 20px; padding-right: 20px; }
+    .advantages-grid { grid-template-columns: 1fr; }
+    .process-steps::before { display: none; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    Re<span>web</span>
+    <div class="nav-dot"></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#послуги">Послуги</a></li>
+    <li><a href="#процес">Як ми працюємо</a></li>
+    <li><a href="#переваги">Переваги</a></li>
+    <li><a href="#ціни">Ціни</a></li>
+    <li><a href="#контакт" class="nav-cta">Зв'язатися</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-badge fade-up fade-up-1">rewebsolutions.com</div>
+
+  <h1 class="fade-up fade-up-2">
+    Сайти та AI<br>для вашого<br><em>бізнесу</em>
+  </h1>
+
+  <p class="hero-sub fade-up fade-up-3">
+    Розробляємо сучасні сайти та автоматизуємо бізнес-процеси за допомогою штучного інтелекту. Швидко, чесно, без зайвого.
+  </p>
+
+  <div class="hero-actions fade-up fade-up-4">
+    <a href="#контакт" class="btn-primary">
+      Обговорити проєкт
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#послуги" class="btn-ghost">
+      Що ми робимо
+    </a>
+  </div>
+
+  <div class="hero-stats fade-up fade-up-5">
+    <div class="stat-item">
+      <div class="stat-num">7–14<span>днів</span></div>
+      <div class="stat-label">Середній термін здачі сайту</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2×<span>+</span></div>
+      <div class="stat-label">Швидше завдяки AI-розробці</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Підтримка після запуску</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="послуги">
+  <div class="services-header">
+    <div>
+      <span class="section-tag">// послуги</span>
+      <h2>Що ми робимо</h2>
+    </div>
+    <p class="section-sub" style="margin-bottom: 0;">
+      Два напрямки — один партнер. Ми будуємо вашу цифрову присутність і прибираємо рутину з процесів.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <div class="service-title">Розробка сайтів</div>
+      <div class="service-desc">
+        Лендинги, корпоративні сайти та невеликі вебдодатки. Сучасний дизайн, швидке завантаження, зручний адмін. Розробляємо за допомогою AI — результат швидше, ціна нижча.
+      </div>
+      <div class="service-tags">
+        <span class="tag">Лендинг</span>
+        <span class="tag">Корп. сайт</span>
+        <span class="tag">Портфоліо</span>
+        <span class="tag">Каталог</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <div class="service-title">AI-автоматизація</div>
+      <div class="service-desc">
+        Знаходимо процеси, які з'їдають ваш час — і замінюємо їх на автоматичні рішення. Від обробки запитів до генерації документів і звітів.
+      </div>
+      <div class="service-tags">
+        <span class="tag">Чат-боти</span>
+        <span class="tag">Авто-звіти</span>
+        <span class="tag">Інтеграції</span>
+        <span class="tag">CRM-автоматизація</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <div class="service-title">Підтримка та розвиток</div>
+      <div class="service-desc">
+        Не кидаємо після здачі. Оновлення, правки, нові функції — по підписці або за запитом. Ви фокусуєтесь на бізнесі, ми — на технологіях.
+      </div>
+      <div class="service-tags">
+        <span class="tag">Технічна підтримка</span>
+        <span class="tag">SEO</span>
+        <span class="tag">Оновлення</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="процес">
+  <span class="section-tag">// як ми працюємо</span>
+  <h2>Чотири кроки<br>до результату</h2>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Знайомство</div>
+      <div class="step-desc">Розбираємося в бізнесі, задачах і очікуваннях. Безкоштовна консультація — без тиску і продажних скриптів.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Пропозиція</div>
+      <div class="step-desc">Готуємо конкретний план: що робимо, скільки коштує, коли здаємо. Прозоро і без прихованих платежів.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Розробка</div>
+      <div class="step-desc">Запускаємо проєкт. Показуємо прогрес, узгоджуємо рішення. Ви завжди знаєте, на якому етапі ми знаходимося.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Здача і підтримка</div>
+      <div class="step-desc">Запускаємо, навчаємо користуватися, залишаємося на зв'язку. Підтримка включена — це не опція.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="переваги">
+  <span class="section-tag">// чому reweb</span>
+  <h2>Чесна робота,<br>чіткий результат</h2>
+
+  <div class="advantages-grid">
+    <div class="adv-card">
+      <div class="adv-num">01</div>
+      <div class="adv-title">Швидкість без компромісів</div>
+      <div class="adv-desc">AI-інструменти дають нам змогу здавати сайти вдвічі швидше без втрати якості. Більше не треба чекати місяці.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">02</div>
+      <div class="adv-title">Ціна — як для малого бізнесу</div>
+      <div class="adv-desc">Ефективна розробка = менше часу = нижча ціна. Ми розуміємо реалії українського бізнесу і будуємо адекватне ціноутворення.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">03</div>
+      <div class="adv-title">Один партнер на все</div>
+      <div class="adv-desc">Сайт, автоматизація, підтримка — усе в одному місці. Не потрібно координувати дизайнерів, розробників і підрядників.</div>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">04</div>
+      <div class="adv-title">Простота в підтримці</div>
+      <div class="adv-desc">Ми пишемо чистий і зрозумілий код. Вам не потрібно залежати тільки від нас — будь-який розробник зможе продовжити роботу.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="ціни">
+  <div style="max-width: 600px;">
+    <span class="section-tag">// ціни</span>
+    <h2>Прозоре<br>ціноутворення</h2>
+    <p class="section-sub">Три варіанти старту. Або обговоримо індивідуально — якщо ваш проєкт складніший.</p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-tier">Старт</div>
+      <div class="price-amount">від <span>₴</span>15 000</div>
+      <div class="price-period">одноразова оплата</div>
+      <ul class="price-features">
+        <li>Лендинг або сайт-візитка</li>
+        <li>До 5 секцій / сторінок</li>
+        <li>Адаптивний дизайн</li>
+        <li>Базова SEO-оптимізація</li>
+        <li>30 днів безкоштовної підтримки</li>
+      </ul>
+      <a href="#контакт" class="btn-ghost" style="text-align: center; justify-content: center;">Замовити</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">Популярне</div>
+      <div class="price-tier">Бізнес</div>
+      <div class="price-amount">від <span>₴</span>35 000</div>
+      <div class="price-period">одноразова оплата</div>
+      <ul class="price-features">
+        <li>Корпоративний сайт</li>
+        <li>До 15 сторінок + CMS</li>
+        <li>Форми, інтеграції, аналітика</li>
+        <li>SEO + швидкість</li>
+        <li>3 місяці підтримки включено</li>
+        <li>Навчання роботи з сайтом</li>
+      </ul>
+      <a href="#контакт" class="btn-primary" style="text-align: center; justify-content: center;">Замовити</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-tier">AI-автоматизація</div>
+      <div class="price-amount">від <span>₴</span>10 000</div>
+      <div class="price-period">залежить від задачі</div>
+      <ul class="price-features">
+        <li>Аудит поточних процесів</li>
+        <li>Розробка AI-рішення під задачу</li>
+        <li>Чат-бот, авто-документи, CRM</li>
+        <li>Тестування та запуск</li>
+        <li>Інструкція та підтримка</li>
+      </ul>
+      <a href="#контакт" class="btn-ghost" style="text-align: center; justify-content: center;">Обговорити</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="контакт">
+  <div class="cta-inner">
+    <span class="section-tag">// контакт</span>
+    <h2>Починаємо?</h2>
+    <p class="section-sub">
+      Розкажіть про свою задачу — безкоштовно проконсультуємо і запропонуємо рішення. Без зобов'язань.
+    </p>
+    <div class="contact-options">
+      <a href="mailto:sales@rewebsolutions.com" class="btn-primary">
+        sales@rewebsolutions.com
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://t.me/rewebsolutions" class="btn-ghost">
+        Telegram
+      </a>
+    </div>
+    <p style="font-family: var(--mono); font-size: 12px; color: var(--text-3); letter-spacing: 0.03em;">
+      Відповідаємо протягом одного робочого дня
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Re<span>web</span> Solutions</div>
+  <ul class="footer-links">
+    <li><a href="#послуги">Послуги</a></li>
+    <li><a href="#процес">Процес</a></li>
+    <li><a href="#ціни">Ціни</a></li>
+    <li><a href="#контакт">Контакт</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 rewebsolutions.com</div>
+</footer>
+
+<script>
+  // Intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.style.opacity = '1';
+        el.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .step, .adv-card, .price-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? '#f0f2f7' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
