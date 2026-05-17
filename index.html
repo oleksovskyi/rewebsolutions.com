@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <title>Reweb — Сайти та AI-автоматизація для бізнесу</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,6 +123,35 @@
   }
 
   .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ── HERO CONTACTS ── */
+  .hero-contacts {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .hero-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .hero-contact-link:hover { color: var(--accent); }
+
+  .hero-contact-sep {
+    width: 1px;
+    height: 14px;
+    background: var(--border);
+  }
 
   /* ── HERO ── */
   .hero {
@@ -321,6 +349,70 @@
     line-height: 1.7;
     margin-bottom: 64px;
   }
+
+  /* ── HERO TWO COLUMN ── */
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 64px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-contact-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero-contact-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: var(--mono);
+  }
+
+  .hero-contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-contact-item-label {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-contact-item a {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-1);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+
+  .hero-contact-item a:hover { color: var(--accent); }
+
+  .hero-contact-divider {
+    height: 1px;
+    background: var(--border);
+  }
+
+  @media (max-width: 960px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-contact-card { display: none; }
+  }
+
 
   /* ── SERVICES ── */
   #послуги { background: var(--bg-2); }
@@ -794,24 +886,57 @@
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
-  <div class="hero-badge fade-up fade-up-1">rewebsolutions.com</div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge fade-up fade-up-1">rewebsolutions.com</div>
 
-  <h1 class="fade-up fade-up-2">
-    Сайти та AI<br>для вашого<br><em>бізнесу</em>
-  </h1>
+      <h1 class="fade-up fade-up-2">
+        Сайти та AI<br>для вашого<br><em>бізнесу</em>
+      </h1>
 
-  <p class="hero-sub fade-up fade-up-3">
-    Розробляємо сучасні сайти та автоматизуємо бізнес-процеси за допомогою штучного інтелекту. Швидко, чесно, без зайвого.
-  </p>
+      <p class="hero-sub fade-up fade-up-3">
+        Розробляємо сучасні сайти та автоматизуємо бізнес-процеси за допомогою штучного інтелекту. Швидко, чесно, без зайвого.
+      </p>
 
-  <div class="hero-actions fade-up fade-up-4">
-    <a href="#контакт" class="btn-primary">
-      Обговорити проєкт
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-    <a href="#послуги" class="btn-ghost">
-      Що ми робимо
-    </a>
+      <div class="hero-actions fade-up fade-up-4">
+        <a href="#контакт" class="btn-primary">
+          Обговорити проєкт
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#послуги" class="btn-ghost">
+          Що ми робимо
+        </a>
+      </div>
+
+    </div>
+
+    <div class="hero-contact-card fade-up fade-up-3">
+      <div class="hero-contact-card-title">Зв'язатися з нами</div>
+
+      <div class="hero-contact-item">
+        <div class="hero-contact-item-label">Телефон</div>
+        <a href="tel:+380972869232">+380 97 286 92 32</a>
+      </div>
+
+      <div class="hero-contact-divider"></div>
+
+      <div class="hero-contact-item">
+        <div class="hero-contact-item-label">Email</div>
+        <a href="mailto:sales@rewebsolutions.com">sales@rewebsolutions.com</a>
+      </div>
+
+      <div class="hero-contact-divider"></div>
+
+      <div class="hero-contact-item">
+        <div class="hero-contact-item-label">Telegram</div>
+        <a href="https://t.me/rewebsolutions">@rewebsolutions</a>
+      </div>
+
+      <a href="#контакт" class="btn-primary" style="margin-top: 8px; justify-content: center; text-align: center;">
+        Залишити заявку
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
   </div>
 
   <div class="hero-stats fade-up fade-up-5">
