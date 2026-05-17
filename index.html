@@ -350,6 +350,34 @@
     margin-bottom: 64px;
   }
 
+  /* ── LANG SWITCHER ── */
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border);
+  }
+
+  .lang-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-3) !important;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .lang-link:hover { color: var(--text-1) !important; }
+  .lang-link.lang-active { color: var(--accent) !important; }
+
+  .lang-sep {
+    font-size: 11px;
+    color: var(--text-3);
+  }
+
   /* ── HERO TWO COLUMN ── */
   .hero-inner {
     display: grid;
@@ -877,6 +905,7 @@
     <li><a href="#переваги">Переваги</a></li>
     <li><a href="#ціни">Ціни</a></li>
     <li><a href="#контакт" class="nav-cta">Зв'язатися</a></li>
+    <li class="lang-switcher"><a href="/en.html" class="lang-link">EN</a><span class="lang-sep">|</span><a href="/index.html" class="lang-link lang-active">UA</a></li>
   </ul>
 </nav>
 
