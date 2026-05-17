@@ -822,6 +822,82 @@
     .form-row { grid-template-columns: 1fr; }
   }
 
+  /* ── REVIEWS ── */
+  #відгуки { background: var(--bg); }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 64px;
+  }
+
+  .review-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 0.3s;
+  }
+
+  .review-card:hover { border-color: var(--border-hover); }
+
+  .review-stars {
+    display: flex;
+    gap: 4px;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  .review-text {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.7;
+    flex: 1;
+    font-style: italic;
+  }
+
+  .review-text::before { content: '\201C'; }
+  .review-text::after { content: '\201D'; }
+
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid rgba(74,240,160,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .review-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+  }
+
+  .review-company {
+    font-size: 12px;
+    color: var(--text-3);
+    font-family: var(--mono);
+    letter-spacing: 0.03em;
+  }
+
   /* ── FOOTER ── */
   footer {
     background: var(--bg);
@@ -904,6 +980,7 @@
     <li><a href="#процес">Як ми працюємо</a></li>
     <li><a href="#переваги">Переваги</a></li>
     <li><a href="#ціни">Ціни</a></li>
+    <li><a href="#відгуки">Відгуки</a></li>
     <li><a href="#контакт" class="nav-cta">Зв'язатися</a></li>
     <li class="lang-switcher"><a href="/en.html" class="lang-link">EN</a><span class="lang-sep">|</span><a href="/index.html" class="lang-link lang-active">UA</a></li>
   </ul>
@@ -1194,6 +1271,58 @@
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section id="відгуки">
+  <span class="section-tag">// відгуки</span>
+  <h2>Що кажуть<br>клієнти</h2>
+
+  <div class="reviews-grid">
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">
+        Звернулися за лендингом для нашої студії. Результат отримали за 10 днів — швидше, ніж очікували. Дизайн сучасний, все працює як треба. Головне — без зайвих питань і затягування термінів.
+      </div>
+      <div class="review-author">
+        <div class="review-avatar">А</div>
+        <div>
+          <div class="review-name">Андрій Коваленко</div>
+          <div class="review-company">Власник, студія йоги Rух — Київ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">
+        Попросили автоматизувати обробку заявок з сайту — раніше менеджер вручну переносив дані в таблицю. Тепер все йде само в CRM і ми отримуємо повідомлення в Telegram. Економимо години щодня.
+      </div>
+      <div class="review-author">
+        <div class="review-avatar">О</div>
+        <div>
+          <div class="review-name">Олена Савченко</div>
+          <div class="review-company">Директор, логістична компанія FastRoute — Львів</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">
+        Зробили корпоративний сайт з каталогом продукції. Приємно здивував підхід — пояснювали кожне рішення, не просто мовчки здали і пішли. Після запуску теж на зв'язку, допомогли з правками.
+      </div>
+      <div class="review-author">
+        <div class="review-avatar">М</div>
+        <div>
+          <div class="review-name">Максим Бондаренко</div>
+          <div class="review-company">Засновник, виробництво меблів Forma — Харків</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Re<span>web</span> Solutions</div>
@@ -1201,6 +1330,8 @@
     <li><a href="#послуги">Послуги</a></li>
     <li><a href="#процес">Процес</a></li>
     <li><a href="#ціни">Ціни</a></li>
+    <li><a href="#відгуки">Відгуки</a></li>
+    <li><a href="#відгуки">Відгуки</a></li>
     <li><a href="#контакт">Контакт</a></li>
   </ul>
   <div class="footer-copy">© 2026 rewebsolutions.com</div>
