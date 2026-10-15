@@ -763,6 +763,61 @@
     margin-top: 1px;
   }
 
+  /* ── PRODUCT ── */
+  .product-card {
+    margin-top: 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    transition: border-color 0.3s;
+  }
+
+  .product-card:hover { border-color: var(--border-hover); }
+
+  .product-logo {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .product-logo span { color: var(--accent); }
+
+  .product-desc {
+    font-size: 16px;
+    color: var(--text-2);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .product-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    justify-content: center;
+    padding-left: 48px;
+    border-left: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .product-card { grid-template-columns: 1fr; padding: 32px; }
+    .product-stats {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-left: 0;
+      padding-top: 24px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+
   /* ── CTA SECTION ── */
   #contact {
     background: var(--bg-2);
@@ -1087,6 +1142,7 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#process">How We Work</a></li>
     <li><a href="#advantages">Why Reweb</a></li>
+    <li><a href="#product">Product</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
@@ -1279,6 +1335,44 @@
       <div class="adv-num">04</div>
       <div class="adv-title">Easy to Maintain</div>
       <div class="adv-desc">We write clean, readable code. You're not locked in — any developer can continue the work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div style="max-width: 600px;">
+    <span class="section-tag">// our product</span>
+    <h2>Our Own<br>SaaS Product</h2>
+    <p class="section-sub">retruck.app is a multi-tenant platform for fleet management that we built and run ourselves. The same approach to AI automation we offer you.</p>
+  </div>
+
+  <div class="product-card">
+    <div>
+      <div class="product-logo">retruck<span>.app</span></div>
+      <div class="product-desc">
+        Maintenance, repair and trip tracking for trucking fleets — from a single dispatcher to a network of partners on one platform. Mileage pulls in automatically from GPS, the system reminds you about oil, brake pad and tire changes, and the dispatcher instantly sees which trucks are free for planning.
+      </div>
+      <ul class="price-features" style="margin-bottom: 32px;">
+        <li>Multi-tenant architecture — every fleet in its own isolated space</li>
+        <li>Automatic mileage tracking via GPS</li>
+        <li>Maintenance and consumables replacement reminders</li>
+        <li>Real-time dashboard for the dispatcher</li>
+      </ul>
+      <a href="https://retruck.app" target="_blank" rel="noopener" class="btn-primary">
+        Visit retruck.app
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="product-stats">
+      <div class="stat-item">
+        <div class="stat-num"><span>∞</span></div>
+        <div class="stat-label">fleets on a single platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">automated maintenance monitoring</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1476,8 +1570,8 @@
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
+    <li><a href="#product">Product</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#reviews">Reviews</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -1495,7 +1589,7 @@
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.service-card, .step, .adv-card, .price-card').forEach(el => {
+  document.querySelectorAll('.service-card, .step, .adv-card, .price-card, .product-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';

@@ -763,6 +763,61 @@
     margin-top: 1px;
   }
 
+  /* ── PRODUCT ── */
+  .product-card {
+    margin-top: 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    transition: border-color 0.3s;
+  }
+
+  .product-card:hover { border-color: var(--border-hover); }
+
+  .product-logo {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .product-logo span { color: var(--accent); }
+
+  .product-desc {
+    font-size: 16px;
+    color: var(--text-2);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .product-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    justify-content: center;
+    padding-left: 48px;
+    border-left: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .product-card { grid-template-columns: 1fr; padding: 32px; }
+    .product-stats {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-left: 0;
+      padding-top: 24px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+
   /* ── CTA SECTION ── */
   #контакт {
     background: var(--bg-2);
@@ -1087,6 +1142,7 @@
     <li><a href="#послуги">Послуги</a></li>
     <li><a href="#процес">Як ми працюємо</a></li>
     <li><a href="#переваги">Переваги</a></li>
+    <li><a href="#продукт">Продукт</a></li>
     <li><a href="#ціни">Ціни</a></li>
     <li><a href="#відгуки">Відгуки</a></li>
     <li><a href="#контакт" class="nav-cta">Зв'язатися</a></li>
@@ -1279,6 +1335,44 @@
       <div class="adv-num">04</div>
       <div class="adv-title">Простота в підтримці</div>
       <div class="adv-desc">Ми пишемо чистий і зрозумілий код. Вам не потрібно залежати тільки від нас — будь-який розробник зможе продовжити роботу.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="продукт">
+  <div style="max-width: 600px;">
+    <span class="section-tag">// наш продукт</span>
+    <h2>Власний<br>SaaS-продукт</h2>
+    <p class="section-sub">retruck.app — мультитенантна платформа для управління автопарками, яку ми самі розробили і підтримуємо. Той самий підхід до AI-автоматизації, який пропонуємо вам.</p>
+  </div>
+
+  <div class="product-card">
+    <div>
+      <div class="product-logo">retruck<span>.app</span></div>
+      <div class="product-desc">
+        Облік технічного обслуговування, ремонтів і рейсів для вантажних автопарків — від одного логіста до мережі партнерів на одній платформі. Пробіги підтягуються автоматично з GPS, система сама нагадує про заміну масла, колодок і шин, а логіст одразу бачить, які машини вільні для планування.
+      </div>
+      <ul class="price-features" style="margin-bottom: 32px;">
+        <li>Мультитенантна архітектура — кожен автопарк у власному ізольованому просторі</li>
+        <li>Автоматичний облік пробігу з GPS</li>
+        <li>Нагадування про ТО та заміну витратних матеріалів</li>
+        <li>Дашборд для логіста в реальному часі</li>
+      </ul>
+      <a href="https://retruck.app" target="_blank" rel="noopener" class="btn-primary">
+        Переглянути retruck.app
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="product-stats">
+      <div class="stat-item">
+        <div class="stat-num"><span>∞</span></div>
+        <div class="stat-label">автопарків на одній платформі</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">автоматичний моніторинг ТО</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1476,6 +1570,7 @@
   <ul class="footer-links">
     <li><a href="#послуги">Послуги</a></li>
     <li><a href="#процес">Процес</a></li>
+    <li><a href="#продукт">Продукт</a></li>
     <li><a href="#ціни">Ціни</a></li>
     <li><a href="#відгуки">Відгуки</a></li>
     <li><a href="#контакт">Контакт</a></li>
@@ -1494,7 +1589,7 @@
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.service-card, .step, .adv-card, .price-card').forEach(el => {
+  document.querySelectorAll('.service-card, .step, .adv-card, .price-card, .product-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
