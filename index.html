@@ -846,14 +846,27 @@
   /* ── REVIEWS ── */
   #відгуки { background: var(--bg); }
 
-  .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
+  .reviews-carousel {
     margin-top: 64px;
+    position: relative;
   }
 
+  .reviews-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .reviews-track::-webkit-scrollbar { display: none; }
+
   .review-card {
+    scroll-snap-align: start;
+    flex: 0 0 calc((100% - 32px) / 3);
     background: var(--bg-2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -863,6 +876,64 @@
     gap: 20px;
     transition: border-color 0.3s;
   }
+
+  @media (max-width: 960px) {
+    .review-card { flex: 0 0 calc((100% - 16px) / 2); }
+  }
+
+  @media (max-width: 640px) {
+    .review-card { flex: 0 0 100%; padding: 24px; }
+  }
+
+  .reviews-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 420px) {
+    .reviews-nav { gap: 12px; }
+    .reviews-arrow { width: 40px; height: 40px; }
+  }
+
+  .reviews-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .reviews-arrow:hover { border-color: var(--border-hover); color: var(--text-1); }
+  .reviews-arrow:disabled { opacity: 0.3; cursor: default; }
+
+  .reviews-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reviews-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .reviews-dot.active { background: var(--accent); transform: scale(1.3); }
 
   .review-card:hover { border-color: var(--border-hover); }
 
@@ -1313,7 +1384,8 @@
   <span class="section-tag">// відгуки</span>
   <h2>Що кажуть<br>клієнти</h2>
 
-  <div class="reviews-grid">
+  <div class="reviews-carousel">
+  <div class="reviews-track" id="reviewsTrack">
 
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
@@ -1386,6 +1458,16 @@
     </div>
 
   </div>
+  <div class="reviews-nav">
+    <button class="reviews-arrow" id="reviewsPrev" aria-label="Попередній відгук">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="reviews-dots" id="reviewsDots"></div>
+    <button class="reviews-arrow" id="reviewsNext" aria-label="Наступний відгук">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1452,6 +1534,52 @@
       a.style.color = a.getAttribute('href') === '#' + current ? '#f0f2f7' : '';
     });
   });
+
+  // Reviews carousel
+  const reviewsTrack = document.getElementById('reviewsTrack');
+  if (reviewsTrack) {
+    const reviewsPrev = document.getElementById('reviewsPrev');
+    const reviewsNext = document.getElementById('reviewsNext');
+    const reviewsDots = document.getElementById('reviewsDots');
+    const reviewCards = Array.from(reviewsTrack.children);
+
+    reviewCards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'reviews-dot';
+      dot.setAttribute('aria-label', `Відгук ${i + 1}`);
+      dot.addEventListener('click', () => {
+        reviewsTrack.scrollTo({ left: reviewCards[i].offsetLeft, behavior: 'smooth' });
+      });
+      reviewsDots.appendChild(dot);
+    });
+    const reviewDots = Array.from(reviewsDots.children);
+
+    function updateReviewsNav() {
+      const maxScroll = reviewsTrack.scrollWidth - reviewsTrack.clientWidth - 2;
+      reviewsPrev.disabled = reviewsTrack.scrollLeft <= 2;
+      reviewsNext.disabled = reviewsTrack.scrollLeft >= maxScroll;
+
+      let activeIndex = 0;
+      let minDist = Infinity;
+      reviewCards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft - reviewsTrack.scrollLeft);
+        if (dist < minDist) { minDist = dist; activeIndex = i; }
+      });
+      reviewDots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
+    }
+
+    function scrollReviews(dir) {
+      const cardWidth = reviewCards[0].getBoundingClientRect().width + 16;
+      const perView = Math.max(1, Math.round(reviewsTrack.clientWidth / cardWidth));
+      reviewsTrack.scrollBy({ left: dir * cardWidth * perView, behavior: 'smooth' });
+    }
+
+    reviewsPrev.addEventListener('click', () => scrollReviews(-1));
+    reviewsNext.addEventListener('click', () => scrollReviews(1));
+    reviewsTrack.addEventListener('scroll', () => requestAnimationFrame(updateReviewsNav));
+    window.addEventListener('resize', updateReviewsNav);
+    updateReviewsNav();
+  }
 </script>
 
 </body>
