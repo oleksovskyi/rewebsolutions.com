@@ -1624,6 +1624,17 @@
     observer.observe(el);
   });
 
+  // Google Ads: "Submit lead form" conversion, fired only after Formspree confirms the submission
+  function trackLeadConversion() {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18476642048/08tvCJzp2oYdEIDerOpE'
+        });
+      }
+    } catch (err) {}
+  }
+
   // Contact form AJAX
   const form = document.getElementById('contactForm');
   const success = document.getElementById('formSuccess');
@@ -1640,6 +1651,7 @@
         form.reset();
         success.style.display = 'block';
         setTimeout(() => success.style.display = 'none', 5000);
+        trackLeadConversion();
       }
     });
   }
